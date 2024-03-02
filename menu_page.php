@@ -30,16 +30,31 @@
         }
 
         .dropzone {
-        display: flex;
-        background-color: #e0e0e0;
-        padding: 20px;
-        min-height: 100%;
-        gap: 15px;
-        flex-direction: column;
+            display: flex;
+            background-color: #e0e0e0;
+            padding: 20px;
+            min-height: 100%;
+            gap: 15px;
+            flex-direction: column;
+        }
+
+        .input-container {
+            position: relative;
         }
 
         input.dropped-field {
             margin-bottom: 10px;
+        }
+
+        .remove-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            background-color: #ff0000;
+            color: #fff;
+            padding: 5px;
+            border: none;
         }
     </style>
 </head>
@@ -81,12 +96,25 @@
             }
 
             function createInputField(type) {
+                const inputContainer = document.createElement('div');
+                inputContainer.classList.add('input-container');
+
                 const inputField = document.createElement('input');
                 inputField.type = type;
                 inputField.placeholder = 'Enter ' + type;
                 inputField.classList.add('dropped-field');
 
-                dropzone.appendChild(inputField);
+                const removeButton = document.createElement('button');
+                removeButton.innerText = 'Remove';
+                removeButton.classList.add('remove-button');
+                removeButton.addEventListener('click', () => {
+                    dropzone.removeChild(inputContainer);
+                });
+
+                inputContainer.appendChild(inputField);
+                inputContainer.appendChild(removeButton);
+
+                dropzone.appendChild(inputContainer);
             }
         });
     </script>
